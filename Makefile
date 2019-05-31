@@ -12,12 +12,13 @@ help:
 	@printf "	make test3              (to run test3)\n"
 # TODO: add targets to compile LinkedList.c
 Stack: Stack.o
-	$(COMPILER) $(C_FLAGS) -o Stack Stack.o 
+	$(COMPILER) $(C_FLAGS) -o Stack Stack.o
 
 Stack.o: Stack.c
 	$(COMPILER) $(C_FLAGS) -c Stack.c
 
-# TODO: add a target for each .input file in the Data directory to run the compiled LinkedList program with the tests in ./Data
+# The C flags to pass to gcc
+C_FLAGS = -Wall -Wextra
 
 test1: Stack
 	./Stack < Data/test1.input > test1.result
