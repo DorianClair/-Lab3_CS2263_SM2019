@@ -41,20 +41,14 @@ int main(void)
     }
 
     // write out the sentence in reverse order
-
     while(Stack != NULL)
     {
-
         char *str = NULL;
         bool popped = pop(&Stack, &str);
-        printf("THREE");
         if( popped && NULL != str )
         {
-            printf("ONE");
             printf("%s ", str);
             free(str);
-            printf("234234");
-
         }
     }
 
@@ -73,11 +67,24 @@ int main(void)
  */
 Node_t *newNode(const char *value, Node_t *next)
 {
-    struct Node_t_t* new_node = (struct Node_t_t*) malloc(sizeof(Node_t));
-    new_node->value = value;
-    new_node->next = next;
-    return new_node;
-    //return NULL;
+    char* newVal = strdup(value);
+    if(newVal == NULL)
+    {
+        return NULL;
+    }else
+    {
+        Node_t* node = malloc(sizeof(node));
+
+        if(node == NULL)
+        {
+            return NULL;
+        }else
+        {
+            node->value = newVal;
+            node->next = next;
+            return node;
+        }
+    }
 }
 
 /**
@@ -87,13 +94,10 @@ Node_t *newNode(const char *value, Node_t *next)
  */
 Node_t *deleteNode(Node_t *current, char **value)
 {
-  Node_t * temp = current;
-  temp = current->next;
-  *value = current->value;
-  printf("in delete node, value = %s", *value);
-
-  free (current);
-  return temp;
+    Node_t* next = current->next;
+    *value = current->value;
+    free(current);
+    return next;
 }
 
 /**
@@ -104,15 +108,8 @@ Node_t *deleteNode(Node_t *current, char **value)
  */
 bool pop(Node_t **Stack, char **value)
 {
-  struct Node_t* current = NULL;
-  printf("not past current, value = %s", *value);
-  current = deleteNode(&Stack, value);
-  *value = current->value;
-  printf("past current, value = %s", value);
-  printf("<---");
-
-  return true;
-
+    *Stack = deleteNode((*Stack), value);
+    return true;
 }
 
 /**
@@ -122,14 +119,13 @@ bool pop(Node_t **Stack, char **value)
  */
 bool push(Node_t **Stack, const char *value)
 {
-  // allocate node
-  Node_t *new_node = newNode(value, Stack);
-  //put in new data
-  new_node->value  = value;
-  //make next of new node as head
-  new_node->next = (*Stack);
-  (*Stack)    = new_node;
-  //printf("its %s", new_node->value);
+    *Stack = newNode(value, (*Stack));
+    if(Stack == NULL)
+    {
+        return false;
+    }else
+    {
+        return true;
+    }
 
-  return true;
 }
