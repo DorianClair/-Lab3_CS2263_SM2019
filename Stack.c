@@ -1,7 +1,7 @@
 /********************
- * 
+ *
  * Sentence reversal program using Linked List based Stack
- * 
+ *
  ********************/
 #include <stdio.h>
 #include <stdlib.h>
@@ -41,14 +41,20 @@ int main(void)
     }
 
     // write out the sentence in reverse order
+
     while(Stack != NULL)
     {
+
         char *str = NULL;
         bool popped = pop(&Stack, &str);
+        printf("THREE");
         if( popped && NULL != str )
         {
+            printf("ONE");
             printf("%s ", str);
             free(str);
+            printf("234234");
+
         }
     }
 
@@ -67,7 +73,11 @@ int main(void)
  */
 Node_t *newNode(const char *value, Node_t *next)
 {
-    return NULL;
+    struct Node_t_t* new_node = (struct Node_t_t*) malloc(sizeof(Node_t));
+    new_node->value = value;
+    new_node->next = next;
+    return new_node;
+    //return NULL;
 }
 
 /**
@@ -77,7 +87,13 @@ Node_t *newNode(const char *value, Node_t *next)
  */
 Node_t *deleteNode(Node_t *current, char **value)
 {
-    return NULL;
+  Node_t * temp = current;
+  temp = current->next;
+  *value = current->value;
+  printf("in delete node, value = %s", *value);
+
+  free (current);
+  return temp;
 }
 
 /**
@@ -88,7 +104,15 @@ Node_t *deleteNode(Node_t *current, char **value)
  */
 bool pop(Node_t **Stack, char **value)
 {
-    return false;
+  struct Node_t* current = NULL;
+  printf("not past current, value = %s", *value);
+  current = deleteNode(&Stack, value);
+  *value = current->value;
+  printf("past current, value = %s", value);
+  printf("<---");
+
+  return true;
+
 }
 
 /**
@@ -98,5 +122,14 @@ bool pop(Node_t **Stack, char **value)
  */
 bool push(Node_t **Stack, const char *value)
 {
-    return false;
+  // allocate node
+  Node_t *new_node = newNode(value, Stack);
+  //put in new data
+  new_node->value  = value;
+  //make next of new node as head
+  new_node->next = (*Stack);
+  (*Stack)    = new_node;
+  //printf("its %s", new_node->value);
+
+  return true;
 }

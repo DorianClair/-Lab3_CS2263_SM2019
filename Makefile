@@ -1,6 +1,23 @@
 
-# TODO: add targets to compile LinkedList.c
+# compile with gcc, change this to clang if you prefer
+COMPILER = gcc
 
-# TODO: add a target for each .input file in the Data directory to run the compiled LinkedList program with the tests in ./Data
+# The C flags to pass to gcc
+C_FLAGS = -Wall -Wextra
 
-# TODO: add a target that can run all the tests above.
+# link our .o files to make an executable
+Stack: Stack.o
+	$(COMPILER) $(C_FLAGS) -o Stack Stack.o
+
+# compile the `Stack.o` file
+Stack.o: Stack.c
+	$(COMPILER) $(C_FLAGS) -c Stack.c
+
+test1: Stack
+	./Stack < Data/test1.input > test1.result
+test2: Stack
+	./Stack < Data/test2.input > test2.result
+test3: Stack
+	./Stack < Data/test3.input > test3.result
+
+test: test1 test2 test3
